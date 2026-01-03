@@ -1,0 +1,135 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+ENV/
+env/
+.venv
+.env
+.ENV
+
+# IDE and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+.vim/
+.emacs.d/
+
+# OS Files
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+*.lnk
+.directory
+
+# Testing
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+htmlcov/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# IPython
+profile_default/
+ipython_config.py
+
+# Mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# Model Cache
+*.bin
+*.pt
+*.pth
+model_cache/
+models/
+cache/
+spacy_models/
+
+# PDF Processing Temp Files
+*.pdf.bak
+*.pdf~
+extracted_*/
+temp/
+tmp/
+temp_pdf/
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Local Configuration
+.claude/
+.claude_config.json
+local_config.json
+secrets.json
+
+# Temporary Files
+*.tmp
+*.temp
+temp_*
+_temp/
+
+# Large Files
+*.tar.gz
+*.zip
+*.rar
+
+# Node (if any)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Keep these directories but ignore certain contents
+!.gitkeep
+pdf-skill/scripts/requirements.txt
