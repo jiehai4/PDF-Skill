@@ -1,15 +1,15 @@
-# PDF-Skill - Advanced PDF Processing MCP Server
+# PDF-Skill - Advanced PDF Processing for Claude Code
 
 <div align="center">
 
 ![PDF Processing](https://img.shields.io/badge/PDF%20Processing-Advanced-blue)
-![MCP Server](https://img.shields.io/badge/MCP-Server-green)
+![Skill Type](https://img.shields.io/badge/Type-Skill-purple)
 ![Python](https://img.shields.io/badge/Python-3.8+-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-**High-performance PDF document processing with intelligent extraction and NLP analysis**
+**High-performance PDF document processing skill for Claude Code and Claude AI**
 
-[Features](#features) • [Quick Start](#quick-start) • [Installation](#installation) • [Usage](#usage) • [Architecture](#architecture)
+[Features](#features) • [Installation](#installation) • [Usage](#usage) • [Capabilities](#capabilities) • [Troubleshooting](#troubleshooting)
 
 </div>
 
@@ -17,9 +17,11 @@
 
 ## Overview
 
-**PDF-Skill** is a high-performance MCP (Model Context Protocol) server for intelligent PDF document processing. It provides comprehensive tools for extracting content, analyzing structure, and performing advanced NLP operations on PDF files.
+**PDF-Skill** is a standalone skill for Claude Code and Claude AI that provides intelligent PDF document processing capabilities. It enables extraction of text, images, and tables, plus advanced NLP analysis features directly within your AI IDE.
 
-Whether you need to extract text, images, or tables, classify documents, or perform deep linguistic analysis, PDF-Skill delivers production-ready solutions with automatic memory management and GPU/CPU optimization.
+This skill processes PDFs with automatic dependency management and intelligent model loading, making it easy to work with PDF documents in your AI workflows.
+
+> **Note**: This is an **independent skill**, not a system-level skill. Dependencies are managed automatically when the skill is first used.
 
 ---
 
@@ -39,592 +41,370 @@ Whether you need to extract text, images, or tables, classify documents, or perf
 - **Advanced Analysis** - Text complexity metrics, POS distribution, TF-IDF phrases
 - **Similarity Calculation** - Semantic similarity between PDFs using embeddings
 
-### ⚡ Performance Features
-- **Lazy Model Loading** - Models load on-demand, not at startup
-- **Smart Memory Management** - Automatic unloading of unused models
-- **GPU/CUDA Support** - Automatic GPU detection and optimization
-- **Quantization** - Dynamic (int8 CPU) and static (float16 GPU) quantization
-- **Batch Processing** - Efficient handling of large documents
-- **Caching** - LRU caching for frequent operations
-
-### 🔄 Integration
-- **MCP Protocol** - Full Model Context Protocol compliance
-- **Claude Desktop** - Direct integration with Claude Desktop
-- **CLI Support** - Command-line interface for standalone use
-- **Python API** - Scriptable Python interface
-
----
-
-## Quick Start
-
-### 1. Clone Repository
-```bash
-git clone https://github.com/jiehai4/PDF-Skill.git
-cd PDF-Skill
-```
-
-### 2. Setup Environment
-```bash
-# Create virtual environment
-uv venv
-
-# Activate virtual environment
-source .venv/bin/activate  # macOS/Linux
-.venv\Scripts\activate     # Windows
-
-# Install dependencies
-uv pip install -r pdf-skill/scripts/requirements.txt
-```
-
-### 3. Basic Usage
-```bash
-# Start the MCP server
-uv run pdf_reader
-
-# Or run directly
-python -m pdf_reader
-```
-
-### 4. Process a PDF
-```python
-from pdf_reader.server import extract_text_from_pdf
-
-# Extract text
-text = extract_text_from_pdf("document.pdf")
-print(text)
-```
+### ⚡ Smart Features
+- **Lazy Model Loading** - Models load on-demand when first used
+- **Automatic Memory Management** - Unloads unused models automatically
+- **GPU/CUDA Support** - Auto-detects and uses GPU when available
+- **Quantization** - Optimized memory usage with dynamic quantization
+- **Background Cleanup** - Idle models removed after 5 minutes
+- **LRU Caching** - Frequent operations cached for speed
 
 ---
 
 ## Installation
 
-### Requirements
-- Python 3.8 or higher
-- pip or uv package manager
-- 2GB+ RAM (4GB+ recommended for ML models)
-- 4GB+ VRAM (optional, for GPU acceleration)
-
-### Step-by-Step Installation
-
-1. **Clone the repository:**
+### Step 1: Clone Repository
 ```bash
 git clone https://github.com/jiehai4/PDF-Skill.git
-cd PDF-Skill
 ```
 
-2. **Create virtual environment:**
+### Step 2: Install Skill
+Copy the `pdf-skill` folder to your Claude Code skills directory:
+
+**macOS/Linux:**
 ```bash
-# Using uv (recommended)
-uv venv
-source .venv/bin/activate  # macOS/Linux
-.venv\Scripts\activate     # Windows
+cp -r PDF-Skill/pdf-skill ~/.claude/skills/
 ```
 
-3. **Install dependencies:**
+**Windows:**
 ```bash
-uv pip install -r pdf-skill/scripts/requirements.txt
+xcopy PDF-Skill\pdf-skill %APPDATA%\Claude\skills\pdf-skill /E
 ```
 
-4. **For GPU support (optional):**
-```bash
-# Install CUDA-enabled PyTorch
-pip install torch --index-url https://download.pytorch.org/whl/cu118
-```
+Or manually:
+1. Locate your Claude Code skills folder (typically `~/.claude/skills/` on macOS/Linux or `%APPDATA%/Claude/skills/` on Windows)
+2. Copy the `pdf-skill` folder there
+3. Restart Claude Code
 
-### Verify Installation
-```bash
-python -c "import pdf_reader; print('✓ PDF-Skill ready!')"
-```
+### Step 3: Verify Installation
+The skill will be automatically available in Claude Code. On first use, dependencies will be downloaded automatically.
 
 ---
 
 ## Usage
 
-### As MCP Server (Recommended)
+### In Claude Code
 
-#### Claude Desktop Integration
-1. Locate config file:
-   - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-   - Windows: `%AppData%/Claude/claude_desktop_config.json`
+Once installed, the PDF-Skill becomes available in Claude Code. Use it by asking Claude to process PDFs:
 
-2. Add configuration:
-```json
-{
-    "mcpServers": {
-        "pdf_reader": {
-            "command": "uv",
-            "args": [
-                "--directory",
-                "/path/to/PDF-Skill",
-                "run",
-                "pdf_reader"
-            ]
-        }
-    }
-}
+```
+User: "Extract all text from this PDF and summarize the content"
+→ Claude uses the skill to extract and analyze the PDF
+→ Returns the extracted text and summary
+
+User: "What tables are in this PDF?"
+→ Claude uses the skill to extract tables
+→ Returns structured table data
+
+User: "Classify this document - is it a report, invoice, or contract?"
+→ Claude uses the skill with classification
+→ Returns the classification result
 ```
 
-3. Restart Claude Desktop
+### Available Operations
 
-#### Start MCP Server
-```bash
-uv run pdf_reader
+**Text Extraction**
+```
+Extract text from document.pdf
+Extract text from pages 1-5 of document.pdf
 ```
 
-The server will start and wait for connections from Claude or other MCP clients.
-
-### As Python Library
-
-```python
-from pdf_reader.server import (
-    extract_text_from_pdf,
-    extract_images_from_pdf,
-    extract_tables_from_pdf,
-    analyze_pdf_content,
-    get_pdf_metadata,
-    classify_pdf_document,
-    calculate_pdf_similarity
-)
-
-# Text extraction
-text = extract_text_from_pdf("document.pdf")
-
-# Analyze content
-entities = analyze_pdf_content("document.pdf", mode="entities")
-summary = analyze_pdf_content("document.pdf", mode="summary")
-keywords = analyze_pdf_content("document.pdf", mode="keywords")
-
-# Get metadata
-metadata = get_pdf_metadata("document.pdf")
-
-# Classify document
-categories = ["Report", "Invoice", "Legal Document", "Other"]
-classification = classify_pdf_document("document.pdf", categories)
-
-# Calculate similarity
-similarity = calculate_pdf_similarity("doc1.pdf", "doc2.pdf")
+**Image Extraction**
+```
+Extract all images from document.pdf
+Get images from the first page of document.pdf
 ```
 
-### Command-Line Scripts
+**Table Extraction**
+```
+Extract tables from document.pdf
+Convert PDF tables to CSV format
+```
 
-PDF-Skill includes standalone Python scripts for direct CLI usage:
+**Content Analysis**
+```
+Summarize the content of document.pdf
+Extract key entities from document.pdf
+Find important keywords in document.pdf
+```
 
-```bash
-# Extract text from all pages
-python pdf-skill/scripts/extract_text.py document.pdf
+**Metadata**
+```
+Get metadata from document.pdf
+How many pages are in document.pdf?
+```
 
-# Extract images
-python pdf-skill/scripts/extract_images.py document.pdf --output ./images
-
-# Extract tables
-python pdf-skill/scripts/extract_tables.py document.pdf
-
-# Analyze content
-python pdf-skill/scripts/analyze_content.py document.pdf --mode entities
-
-# Get metadata
-python pdf-skill/scripts/get_metadata.py document.pdf
-
-# Classify document
-python pdf-skill/scripts/classify_document.py document.pdf --categories "Report,Invoice,Legal"
-
-# Detect languages
-python pdf-skill/scripts/detect_languages.py document.pdf
-
-# Advanced analysis
-python pdf-skill/scripts/advanced_analysis.py document.pdf
-
-# Calculate similarity
-python pdf-skill/scripts/calculate_similarity.py doc1.pdf doc2.pdf
+**Classification & Analysis**
+```
+Classify this document (Report/Invoice/Legal)
+Compare similarity between two PDFs
+Detect languages in document.pdf
+Analyze text complexity in document.pdf
 ```
 
 ---
 
-## API Reference
+## Capabilities
 
-### Core Tools
+### Text Extraction
+Extracts text content from PDFs with support for:
+- Full document extraction
+- Specific page ranges
+- Text-based PDFs (scanned PDFs require external OCR)
 
-#### extract_text_from_pdf(file_path, pages=None)
-Extract text content from a PDF file.
+### Image Extraction
+- Extracts images with base64 encoding
+- Optimized file sizes
+- Metadata for each image (page number, dimensions)
 
-**Parameters:**
-- `file_path` (str): Path to PDF file
-- `pages` (list, optional): Specific page numbers to extract. If None, extracts all pages
+### Table Extraction
+- Converts tables to structured formats
+- Supports multiple table formats
+- Preserves table relationships
 
-**Returns:** Extracted text (str)
+### Content Analysis (Three Modes)
+1. **Entities** - Named entity recognition (people, organizations, locations, etc.)
+2. **Summary** - Automatic document summarization
+3. **Keywords** - Key term and phrase extraction
 
-#### extract_images_from_pdf(file_path, pages=None)
-Extract images from PDF with base64 encoding.
+### Document Classification
+- Zero-shot classification
+- Custom category support
+- Confidence scores for each classification
 
-**Parameters:**
-- `file_path` (str): Path to PDF file
-- `pages` (list, optional): Specific page numbers. If None, extracts from all pages
+### Language Detection
+- Multi-language support
+- Per-paragraph language analysis
+- Confidence scores
 
-**Returns:** List of base64-encoded images with metadata
+### Advanced Analysis
+- Lexical complexity metrics
+- Part-of-speech (POS) distribution
+- TF-IDF phrase extraction
+- Text readability analysis
 
-#### extract_tables_from_pdf(file_path, pages=None)
-Extract structured tables from PDF.
-
-**Parameters:**
-- `file_path` (str): Path to PDF file
-- `pages` (list, optional): Specific page numbers
-
-**Returns:** Structured table data (dict or DataFrame)
-
-#### analyze_pdf_content(file_path, mode="entities")
-Analyze PDF content using NLP.
-
-**Parameters:**
-- `file_path` (str): Path to PDF file
-- `mode` (str): Analysis mode - "entities", "summary", or "keywords"
-
-**Returns:** Analysis results (dict)
-
-#### classify_pdf_document(file_path, categories)
-Zero-shot document classification.
-
-**Parameters:**
-- `file_path` (str): Path to PDF file
-- `categories` (list): Category labels for classification
-
-**Returns:** Classification results with scores (dict)
-
-#### calculate_pdf_similarity(file_path1, file_path2)
-Calculate semantic similarity between two PDFs.
-
-**Parameters:**
-- `file_path1` (str): Path to first PDF
-- `file_path2` (str): Path to second PDF
-
-**Returns:** Similarity score (float, 0-1)
-
-#### detect_pdf_languages(file_path)
-Detect languages in PDF with per-paragraph analysis.
-
-**Parameters:**
-- `file_path` (str): Path to PDF file
-
-**Returns:** Language detection results (dict)
-
----
-
-## Architecture
-
-### System Design
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    MCP Server Interface                      │
-│              (Claude Desktop, API Clients)                   │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────────┐
-│                  Tool Handlers (server.py)                   │
-│  • extract_text    • extract_images    • extract_tables      │
-│  • analyze_content • get_metadata      • classify_document   │
-│  • calculate_similarity  • detect_languages  • advanced_analysis│
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────────┐
-│              Model Manager (Singleton Pattern)               │
-│  • Lazy Loading      • Memory Management   • Device Selection│
-│  • Auto-Cleanup      • Quantization        • GPU/CPU Switch  │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-       ┌───────────────┼───────────────┐
-       │               │               │
-   ┌───▼──┐        ┌───▼──┐       ┌──▼────┐
-   │Spacy │        │Hugging│      │Sentence│
-   │      │        │Face   │      │Trans.  │
-   │ NLP  │        │Models │      │ Embed  │
-   └──────┘        └───────┘      └────────┘
-       │               │               │
-       └───────────────┼───────────────┘
-                       │
-       ┌───────────────┼───────────────┐
-       │               │               │
-   ┌───▼──────┐   ┌───▼──────┐   ┌───▼──────┐
-   │PyMuPDF   │   │PDFMiner  │   │Tabula    │
-   │          │   │          │   │          │
-   │Extract   │   │Table     │   │Table     │
-   │          │   │Detect    │   │Parse     │
-   └──────────┘   └──────────┘   └──────────┘
-```
-
-### Core Components
-
-#### ModelManager (server.py:30-323)
-Central singleton for ML model lifecycle management:
-
-- **Lazy Loading**: Models load on first access only
-- **Memory Monitoring**: Tracks system memory and unloads least-used models at 80% threshold
-- **Auto-Cleanup**: Background thread removes idle models (default: 300s)
-- **Device Selection**: Auto-detects CUDA and selects GPU/CPU
-- **Quantization**:
-  - CPU: Dynamic int8 quantization
-  - GPU: Static float16 quantization
-
-**Managed Models:**
-1. `spacy` - en_core_web_sm for NLP tasks
-2. `classifier` - facebook/bart-large-mnli for zero-shot classification
-3. `sentence_transformer` - paraphrase-MiniLM-L6-v2 for similarity
-
-#### Tool Implementation Pattern
-Each tool follows:
-1. Definition in `handle_list_tools()` with JSON schema
-2. Async implementation function
-3. Handler in `handle_call_tool()`
-4. Error handling with fallback responses
-
-### Configuration
-
-#### ModelManager Settings (server.py:35-36)
-```python
-_memory_threshold = 0.8     # Unload models at 80% system memory
-_max_idle_time = 300        # Unload after 5 minutes of inactivity
-```
-
-#### Device Selection
-- CUDA GPU if available (4GB+ VRAM)
-- CPU with int8 quantization (memory-constrained)
-- Automatic fallback on OOM errors
-
----
-
-## Common Workflows
-
-### Extract and Analyze a Document
-```python
-from pdf_reader.server import (
-    extract_text_from_pdf,
-    analyze_pdf_content,
-    get_pdf_metadata
-)
-
-# Get basic info
-metadata = get_pdf_metadata("report.pdf")
-print(f"Title: {metadata['title']}, Pages: {metadata['page_count']}")
-
-# Extract and analyze
-text = extract_text_from_pdf("report.pdf")
-entities = analyze_pdf_content("report.pdf", mode="entities")
-summary = analyze_pdf_content("report.pdf", mode="summary")
-keywords = analyze_pdf_content("report.pdf", mode="keywords")
-
-print(f"Summary: {summary}")
-print(f"Key Entities: {entities}")
-print(f"Keywords: {keywords}")
-```
-
-### Process Tables from Financial Reports
-```python
-from pdf_reader.server import extract_tables_from_pdf
-
-tables = extract_tables_from_pdf("financial_report.pdf")
-for i, table in enumerate(tables):
-    # Convert to CSV or JSON
-    table.to_csv(f"table_{i}.csv")
-```
-
-### Batch Classification of Multiple Documents
-```python
-import os
-from pdf_reader.server import classify_pdf_document
-
-categories = ["Technical", "Business", "Legal", "Financial"]
-
-for pdf_file in os.listdir("documents/"):
-    if pdf_file.endswith(".pdf"):
-        result = classify_pdf_document(f"documents/{pdf_file}", categories)
-        print(f"{pdf_file}: {result['category']} ({result['score']:.2f})")
-```
-
-### Image-Based PDF Handling
-```python
-from pdf_reader.server import extract_text_from_pdf, extract_images_from_pdf
-
-# Attempt text extraction
-text = extract_text_from_pdf("scanned_document.pdf")
-
-# If result is too short, likely image-based
-if len(text.strip()) < 100:
-    print("⚠️ Image-based PDF detected. Extracting images...")
-    images = extract_images_from_pdf("scanned_document.pdf")
-    print(f"Extracted {len(images)} images")
-    # Use external OCR service for text extraction
-```
-
----
-
-## Performance Optimization
-
-### For Large Documents
-```python
-# Process specific page ranges instead of entire document
-text = extract_text_from_pdf("large_doc.pdf", pages=[0, 1, 2])  # First 3 pages
-```
-
-### For Memory-Constrained Systems
-- Models use int8 quantization on CPU by default
-- Automatic unloading of idle models
-- Configurable memory threshold (default: 80%)
-
-### For GPU Acceleration
-```bash
-# Install CUDA-enabled PyTorch
-pip install torch --index-url https://download.pytorch.org/whl/cu118
-```
-Server auto-detects CUDA and uses GPU for:
-- NLP analysis
-- Document classification
-- Similarity calculation
-
-### Model Memory Management
-```python
-from pdf_reader.server import ModelManager
-
-manager = ModelManager()
-memory_usage = manager.get_model_memory_usage()
-print(f"Current model memory: {memory_usage['total']:.2f}MB")
-```
-
----
-
-## Troubleshooting
-
-### "ImportError: No module named 'torch'"
-Install dependencies:
-```bash
-uv pip install -r pdf-skill/scripts/requirements.txt
-```
-
-### "CUDA out of memory"
-1. Reduce batch size
-2. Enable quantization (enabled by default)
-3. Increase swap memory
-4. Use CPU mode: `CUDA_VISIBLE_DEVICES="" python -m pdf_reader`
-
-### "Text extraction returns empty"
-PDF might be image-based (scanned document). Use image extraction instead:
-```python
-from pdf_reader.server import extract_images_from_pdf
-images = extract_images_from_pdf("document.pdf")
-```
-
-### Slow initialization
-Models load lazily on first access. First call may take 30-60s. Subsequent calls are instant.
-
-### High memory usage
-- Models are automatically unloaded after 5 minutes of inactivity
-- Check usage with `ModelManager.get_model_memory_usage()`
-- Reduce `_max_idle_time` to unload faster
+### Similarity Calculation
+- Semantic similarity between PDFs
+- Uses transformer embeddings
+- Similarity scores (0-1 range)
 
 ---
 
 ## Dependencies
 
-### PDF Processing
-- **PyMuPDF** (1.23.8) - Fast PDF reading and rendering
-- **pdfminer.six** (20221105) - Text extraction and analysis
-- **tabula-py** (2.5.1) - Table extraction
-- **pandas** (2.1.4) - Data manipulation
+The skill automatically manages its own dependencies on first use. Required packages include:
 
-### NLP & Machine Learning
-- **spacy** (3.7.2) - Named entity recognition, dependency parsing
-- **transformers** (4.36.2) - Hugging Face models
-- **torch** (2.1.2) - Deep learning framework
-- **sentence-transformers** (2.2.2) - Semantic embeddings
-- **scikit-learn** (1.3.2) - ML utilities
-- **nltk** (3.8.1) - Text processing
-- **langdetect** (1.0.9) - Language detection
+**PDF Processing**
+- PyMuPDF (fitz) - Fast PDF reading and rendering
+- pdfminer.six - Text extraction and analysis
+- tabula-py - Table extraction
+- pandas - Data manipulation
 
-### Utilities
-- **Pillow** (10.1.0) - Image processing
-- **numpy** (1.26.3) - Numerical computing
+**NLP & Machine Learning**
+- spacy - Named entity recognition
+- transformers - Hugging Face models
+- torch - Deep learning framework
+- sentence-transformers - Semantic embeddings
+- scikit-learn - ML utilities
+- nltk - Text processing
+- langdetect - Language detection
+
+**Utilities**
+- Pillow - Image processing
+- numpy - Numerical computing
+
+> **Dependency Management**: On first use, the skill will automatically download and install dependencies. This process happens once and may take a few minutes. Subsequent uses are instant.
 
 ---
 
-## Configuration
+## Performance Characteristics
 
-### Environment Variables
-```bash
-# Use CPU only (disable GPU)
-export CUDA_VISIBLE_DEVICES=""
+### Model Loading
+- **First Use**: ~30-60 seconds (models download and load)
+- **Subsequent Uses**: Instant (cached models)
+- **Idle Timeout**: Models unload after 5 minutes of inactivity
 
-# Set MCP server port
-export MCP_PORT=5000
+### Memory Usage
+- **Monitoring**: Automatic memory pressure tracking
+- **Auto-Cleanup**: Models unload when system memory exceeds 80%
+- **Quantization**: Models use int8 (CPU) or float16 (GPU) quantization to reduce memory
+- **GPU Support**: Auto-detects CUDA; uses GPU with 4GB+ VRAM
+
+### Processing Time
+- **Small PDFs** (<100 pages): < 5 seconds
+- **Large PDFs** (1000+ pages): Recommend processing page ranges
+- **NLP Operations**: Fastest on GPU, acceptable on CPU
+
+---
+
+## Common Workflows
+
+### Extract and Understand a Document
+```
+User: "Extract text from report.pdf and give me a summary, key entities, and important keywords"
+
+Claude will:
+1. Extract text using extract_text
+2. Analyze with mode="summary" to get overview
+3. Analyze with mode="entities" to extract key information
+4. Analyze with mode="keywords" to find important terms
+5. Present all results in organized format
 ```
 
-### Model Configuration (server.py)
-```python
-# Adjust memory threshold
-ModelManager._memory_threshold = 0.85  # 85% instead of 80%
-
-# Change idle timeout (seconds)
-ModelManager._max_idle_time = 600      # 10 minutes instead of 5
+### Process Financial Reports
 ```
+User: "Extract all tables from financial_report.pdf and convert to CSV"
+
+Claude will:
+1. Extract tables using extract_tables
+2. Convert to CSV format
+3. Provide the structured data for further analysis
+```
+
+### Classify Documents
+```
+User: "Classify these PDFs - are they Technical, Business, Legal, or Financial documents?"
+
+Claude will:
+1. Analyze each PDF
+2. Classify using provided categories
+3. Return classification results with confidence scores
+```
+
+### Compare Documents
+```
+User: "How similar are doc1.pdf and doc2.pdf?"
+
+Claude will:
+1. Calculate semantic similarity using embeddings
+2. Return similarity score (0-1)
+3. Provide insights about document relationship
+```
+
+---
+
+## Handling Image-Based PDFs
+
+Some PDFs are created by scanning paper documents rather than containing extractable text.
+
+### Detection
+If text extraction returns minimal or no text, the PDF is likely image-based. Options:
+
+1. **Extract Images** - Get visual content from the PDF
+2. **External OCR** - Use services like:
+   - Google Cloud Vision API
+   - Amazon Textract
+   - Azure Computer Vision
+   - Adobe Acrobat OCR
+   - EasyOCR (open-source)
+
+### Recommendation
+Let Claude detect image-based PDFs and suggest appropriate solutions automatically.
+
+---
+
+## Troubleshooting
+
+### "Dependency Download Failed"
+First use may require downloading models. Check:
+1. Internet connection is stable
+2. You have 2GB+ free disk space
+3. Sufficient free RAM for model loading
+
+**Solution**: Retry - models cache after first download
+
+### "Text Extraction Returns Empty"
+PDF is likely image-based (scanned document):
+```
+→ Try image extraction instead
+→ Use external OCR service for text
+```
+
+### "Slow on First Use"
+Expected behavior - models are loading:
+```
+First call: ~30-60 seconds (model download + loading)
+Subsequent calls: < 5 seconds (instant)
+```
+
+### "Out of Memory Error"
+Models are unloading due to memory pressure:
+```
+Solutions:
+1. Close other applications
+2. Process smaller page ranges
+3. Wait 5+ minutes for idle model unloading
+4. Reduce system memory usage
+```
+
+### "GPU/CUDA Not Working"
+The skill will automatically fall back to CPU:
+```
+For GPU support:
+1. Install CUDA-capable GPU drivers
+2. Skill auto-detects CUDA if available
+3. Falls back to CPU quantization if not available
+```
+
+---
+
+## Project Structure
+
+```
+pdf-skill/
+├── SKILL.md                    # Skill documentation
+├── scripts/                    # Standalone Python scripts
+│   ├── extract_text.py         # Text extraction
+│   ├── extract_images.py       # Image extraction
+│   ├── extract_tables.py       # Table extraction
+│   ├── analyze_content.py      # Content analysis (entities/summary/keywords)
+│   ├── get_metadata.py         # Metadata extraction
+│   ├── classify_document.py    # Document classification
+│   ├── calculate_similarity.py # PDF similarity
+│   ├── detect_languages.py     # Language detection
+│   ├── advanced_analysis.py    # Advanced text analysis
+│   └── requirements.txt        # Python dependencies
+└── references/
+    └── api_reference.md        # Detailed API documentation
+```
+
+---
+
+## Implementation Details
+
+### Model Manager (Singleton Pattern)
+The skill uses a centralized Model Manager for intelligent model lifecycle:
+
+- **Lazy Loading**: Models load only on first use
+- **Memory Monitoring**: Tracks system memory and unloads least-used models when threshold (80%) is exceeded
+- **Auto-Cleanup**: Background thread removes idle models (default: 300 seconds)
+- **Device Selection**: Automatically selects CPU or GPU based on CUDA availability
+- **Quantization Support**:
+  - Dynamic quantization for CPU (int8)
+  - Static quantization for GPU (float16)
+
+### Managed Models
+1. **spacy** - en_core_web_sm for NLP (entities, dependencies, POS)
+2. **classifier** - facebook/bart-large-mnli for zero-shot classification
+3. **sentence_transformer** - paraphrase-MiniLM-L6-v2 for similarity
 
 ---
 
 ## Development
 
-### Project Structure
-```
-pdf-skill/
-├── scripts/                  # Standalone Python scripts
-│   ├── extract_text.py
-│   ├── extract_images.py
-│   ├── extract_tables.py
-│   ├── analyze_content.py
-│   ├── get_metadata.py
-│   ├── classify_document.py
-│   ├── calculate_similarity.py
-│   ├── detect_languages.py
-│   ├── advanced_analysis.py
-│   └── requirements.txt
-├── references/              # API documentation
-│   ├── api_reference.md
-│   └── examples.md
-└── README.md               # This file
-```
+### For Developers
+If you want to integrate PDF-Skill into your own Claude Code setup:
 
-### Running Tests
-```bash
-# Test basic functionality
-python pdf-skill/scripts/extract_text.py sample.pdf
+1. Clone and place in `~/.claude/skills/pdf-skill`
+2. Skill becomes available automatically
+3. Claude can invoke all operations
 
-# Test with various PDF types
-python pdf-skill/scripts/extract_text.py sample_scanned.pdf
-python pdf-skill/scripts/extract_tables.py sample_tables.pdf
-```
-
-### Adding New Features
-1. Create implementation function in scripts/
-2. Add MCP tool definition to handle_list_tools()
-3. Add handler to handle_call_tool()
-4. Update this README
-
----
-
-## Known Limitations
-
-- **OCR Not Supported**: Use external OCR for scanned PDFs without extractable text
-- **Complex Tables**: May need post-processing for multi-level headers
-- **Encrypted PDFs**: Requires password or decryption before processing
-- **Language Support**: Entity recognition limited to English (use spacy's other language models for others)
-- **Layout Analysis**: Does not preserve exact visual layout (use PyMuPDF blocks for advanced layout detection)
-
----
-
-## Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+### Adding Custom Operations
+To extend the skill:
+1. Add new script to `scripts/` directory
+2. Follow the same parameter/output patterns
+3. Update `SKILL.md` documentation
+4. Test with Claude Code
 
 ---
 
@@ -650,7 +430,7 @@ Built with:
 - [Spacy](https://spacy.io/) for NLP
 - [Hugging Face Transformers](https://huggingface.co/) for state-of-the-art models
 - [Sentence Transformers](https://www.sbert.net/) for semantic embeddings
-- [Model Context Protocol](https://modelcontextprotocol.io/) for integration
+- [Claude Code](https://claude.com/claude-code) skill framework
 
 ---
 
@@ -658,6 +438,6 @@ Built with:
 
 **Made with ❤️ for PDF enthusiasts and developers**
 
-[⬆ Back to top](#pdf-skill---advanced-pdf-processing-mcp-server)
+[⬆ Back to top](#pdf-skill---advanced-pdf-processing-for-claude-code)
 
 </div>
