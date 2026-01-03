@@ -21,7 +21,6 @@
 
 This skill processes PDFs with automatic dependency management and intelligent model loading, making it easy to work with PDF documents in your AI workflows.
 
-> **Note**: This is an **independent skill**, not a system-level skill. Dependencies are managed automatically when the skill is first used.
 
 ---
 
@@ -61,23 +60,12 @@ git clone https://github.com/jiehai4/PDF-Skill.git
 ### Step 2: Install Skill
 Copy the `pdf-skill` folder to your Claude Code skills directory:
 
-**macOS/Linux:**
 ```bash
-cp -r PDF-Skill/pdf-skill ~/.claude/skills/
+   /.claude/skill/pdf-skill
 ```
-
-**Windows:**
-```bash
-xcopy PDF-Skill\pdf-skill %APPDATA%\Claude\skills\pdf-skill /E
-```
-
-Or manually:
-1. Locate your Claude Code skills folder (typically `~/.claude/skills/` on macOS/Linux or `%APPDATA%/Claude/skills/` on Windows)
-2. Copy the `pdf-skill` folder there
-3. Restart Claude Code
 
 ### Step 3: Verify Installation
-The skill will be automatically available in Claude Code. On first use, dependencies will be downloaded automatically.
+The skill will be automatically available in Claude Code. On first use, dependencies will be configuration automatically.
 
 ---
 
@@ -213,7 +201,6 @@ The skill automatically manages its own dependencies on first use. Required pack
 - Pillow - Image processing
 - numpy - Numerical computing
 
-> **Dependency Management**: On first use, the skill will automatically download and install dependencies. This process happens once and may take a few minutes. Subsequent uses are instant.
 
 ---
 
@@ -305,13 +292,7 @@ Let Claude detect image-based PDFs and suggest appropriate solutions automatical
 
 ## Troubleshooting
 
-### "Dependency Download Failed"
-First use may require downloading models. Check:
-1. Internet connection is stable
-2. You have 2GB+ free disk space
-3. Sufficient free RAM for model loading
 
-**Solution**: Retry - models cache after first download
 
 ### "Text Extraction Returns Empty"
 PDF is likely image-based (scanned document):
@@ -411,15 +392,6 @@ To extend the skill:
 ## License
 
 This project is licensed under the MIT License - see LICENSE file for details.
-
----
-
-## Contact & Support
-
-- **Author**: jiehai4
-- **Email**: 383942426@qq.com
-- **GitHub**: [jiehai4/PDF-Skill](https://github.com/jiehai4/PDF-Skill)
-- **Issues**: [GitHub Issues](https://github.com/jiehai4/PDF-Skill/issues)
 
 ---
 
